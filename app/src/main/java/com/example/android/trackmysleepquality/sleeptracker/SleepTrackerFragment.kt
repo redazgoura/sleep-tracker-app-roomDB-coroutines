@@ -22,11 +22,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.android.trackmysleepquality.R
 import com.example.android.trackmysleepquality.database.SleepDatabase
 import com.example.android.trackmysleepquality.database.SleepDatabaseDao
 import com.example.android.trackmysleepquality.databinding.FragmentSleepTrackerBinding
+import com.google.android.material.snackbar.Snackbar
 
 /**
  * A fragment with buttons to record start and end times for sleep, which are saved in
@@ -60,7 +63,6 @@ class SleepTrackerFragment : Fragment() {
         //using SleepDatabaseFactory we can get SleepTrackerViewModel from ViewModelProvider
         val sleepTrackerViewModel = ViewModelProvider(this, viewModelFactory).get(SleepTrackerViewModel::class.java)
 
-
         //Assign the "sleepTrackerViewModel" binding variable to the" sleepTrackerViewModel".
         binding.sleepTrackerViewModel = sleepTrackerViewModel
 
@@ -68,6 +70,28 @@ class SleepTrackerFragment : Fragment() {
         // this is necessary so that the binding can observe LiveData updates
         binding.lifecycleOwner = this
 
+
+        //observe navigate to sleep quality to know when to navigate
+        sleepTrackerViewModel.navigateToSleepQuality.observe(viewLifecycleOwner, Observer{night ->
+            night?.let{
+                this.findNavController().navigate(
+                    //night.nightID : id of the current night
+                    SleepTrackerFragmentDirections.actionSleepTrackerFragmentToSleepQualityFragment(night.nightId))
+                sleepTrackerViewModel.doneNavigating()
+            }
+        })
+
+        sleepTrackerViewModel.showSnackBarEvent.observe(viewLifecycleOwner, Observer {
+
+            if (it == true) { // Observed state is true.
+                Snackbar.make(
+                    activity!!.findViewById(android.R.id.content),
+                    getString(R.string.cleared_message),
+                    Snackbar.LENGTH_LONG // How long to display the message.
+                ).show()
+                sleepTrackerViewModel.doneShowingSnackbar()
+            }
+        })
 
         return binding.root
     }
