@@ -73,6 +73,8 @@ class SleepTrackerViewModel(
 
 
     //Assign each variable to a Transformations that tests it against the value of tonight.
+    // Transformations class offers a way to apply transformations to LiveData objects,
+    // which are commonly used for observing and updating UI components
     val startButtonVisible = Transformations.map(tonight) {
         null == it
     }
