@@ -93,6 +93,20 @@ class SleepTrackerViewModel(
         _showSnackbarEvent.value = false
     }
 
+    // handler for the click event
+    private val _navigateToSleepDataQuality = MutableLiveData<Long>()
+    val navigateToSleepDataQuality
+        get() = _navigateToSleepDataQuality
+
+    // Initiate navigation by setting _navigateToSleepDataQuality.value to id
+    fun onSleepNightClicked(id: Long){
+        _navigateToSleepDataQuality.value = id
+    }
+
+    // set it to null once navigation is completed
+    fun onSleepDataQualityNavigated() {
+        _navigateToSleepDataQuality.value = null
+    }
     init {
         initializeTonight()
     }
