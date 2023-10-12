@@ -26,13 +26,8 @@ import com.example.android.trackmysleepquality.database.SleepDatabaseDao
  *
  * Provides the SleepDatabaseDao and context to the ViewModel.
  */
-
-// ViewModelFactory helps instantiate the ViewModel and provide it w/ datasource
 class SleepTrackerViewModelFactory(
-        //DAO interface as data source
         private val dataSource: SleepDatabaseDao,
-
-        // app context //this factory extends ViewModelProvider.Factory
         private val application: Application) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {

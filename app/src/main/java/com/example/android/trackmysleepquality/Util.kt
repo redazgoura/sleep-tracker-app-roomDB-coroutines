@@ -1,3 +1,19 @@
+/*
+ * Copyright 2018, The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.android.trackmysleepquality
 
 import android.annotation.SuppressLint
@@ -51,7 +67,6 @@ fun convertDurationToFormatted(startTimeMilli: Long, endTimeMilli: Long, res: Re
     }
 }
 
-
 /**
  * Returns a string representing the numeric quality rating.
  */
@@ -67,6 +82,7 @@ fun convertNumericQualityToString(quality: Int, resources: Resources): String {
     }
     return qualityString
 }
+
 
 /**
  * Take the Long milliseconds returned by the system and stored in Room,
@@ -96,6 +112,7 @@ fun convertLongToDateString(systemTime: Long): String {
  * @return  Spanned - An interface for text that has formatting attached to it.
  *           See: https://developer.android.com/reference/android/text/Spanned
  */
+
 fun formatNights(nights: List<SleepNight>, resources: Resources): Spanned {
     val sb = StringBuilder()
     sb.apply {
@@ -119,18 +136,17 @@ fun formatNights(nights: List<SleepNight>, resources: Resources): Spanned {
             }
         }
     }
-
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
         return Html.fromHtml(sb.toString(), Html.FROM_HTML_MODE_LEGACY)
     } else {
         return HtmlCompat.fromHtml(sb.toString(), HtmlCompat.FROM_HTML_MODE_LEGACY)
     }
-
-    /**
-     * ViewHolder that holds a single [TextView].
-     *
-     * A ViewHolder holds a view for the [RecyclerView] as well as providing additional information
-     * to the RecyclerView such as where on the screen it was last drawn during scrolling.
-     */
-    class TextItemViewHolder(val textView: TextView): RecyclerView.ViewHolder(textView)
 }
+
+/**
+ * ViewHolder that holds a single [TextView].
+ *
+ * A ViewHolder holds a view for the [RecyclerView] as well as providing additional information
+ * to the RecyclerView such as where on the screen it was last drawn during scrolling.
+ */
+class TextItemViewHolder(val textView: TextView): RecyclerView.ViewHolder(textView)
