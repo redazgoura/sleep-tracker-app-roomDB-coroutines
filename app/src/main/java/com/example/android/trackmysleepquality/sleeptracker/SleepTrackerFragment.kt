@@ -20,11 +20,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.example.android.trackmysleepquality.R
 import com.example.android.trackmysleepquality.database.SleepDatabase
 import com.example.android.trackmysleepquality.database.SleepDatabaseDao
@@ -65,6 +67,17 @@ class SleepTrackerFragment : Fragment() {
 
         //Assign the "sleepTrackerViewModel" binding variable to the" sleepTrackerViewModel".
         binding.sleepTrackerViewModel = sleepTrackerViewModel
+
+        /**
+            attach the adapter to RV
+         */
+        val adapter = SleepNightAdapter()
+        binding.sleepList.adapter = adapter
+        sleepTrackerViewModel.nights.observe(viewLifecycleOwner, Observer{ it?.let {
+
+            //ListAdapter method that  diff the new list against the old one
+            adapter.submitList(it)
+        }})
 
         //specify a current activity as the lifecycle owner of the binding
         // this is necessary so that the binding can observe LiveData updates

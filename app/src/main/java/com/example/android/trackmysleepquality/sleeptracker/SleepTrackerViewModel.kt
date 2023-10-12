@@ -54,7 +54,7 @@ class SleepTrackerViewModel(
     private var tonight = MutableLiveData<SleepNight?>()
 
     // var nights that holds all nights from DB
-    private val nights = database.getAllNights()
+    val nights = database.getAllNights()
 
     val nightsString = Transformations.map(nights) { nights ->
         formatNights(nights, application.resources)
@@ -70,7 +70,6 @@ class SleepTrackerViewModel(
         fun doneNavigating(){
                 _navigateToSleepQuality.value = null
         }
-
 
     //Assign each variable to a Transformations that tests it against the value of tonight.
     // Transformations class offers a way to apply transformations to LiveData objects,
